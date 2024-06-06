@@ -35,27 +35,57 @@ TNode *insertTree(TNode *root, int e)
     return root;
 }
 
-void printTree(TNode *root)
+void PreOrder(TNode *root)
 {
     if (root == NULL)
     {
         return;
     }
-    printTree(root->left);
     cout << root->data << " ";
-    printTree(root->right);
+    PreOrder(root->left);
+    PreOrder(root->right);
+}
+
+void InOrder(TNode *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    InOrder(root->left);
+    cout << root->data << " ";
+    InOrder(root->right);
+}
+
+void PostOrder(TNode *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+    PostOrder(root->left);
+    PostOrder(root->right);
+    cout << root->data << " ";
 }
 
 int main()
 {
     TNode *root = NULL;
+    root = insertTree(root, 10);
     root = insertTree(root, 5);
+    root = insertTree(root, 15);
     root = insertTree(root, 3);
     root = insertTree(root, 7);
-    root = insertTree(root, 2);
-    root = insertTree(root, 4);
-    root = insertTree(root, 6);
-    root = insertTree(root, 8);
-    printTree(root);
+    root = insertTree(root, 12);
+    root = insertTree(root, 18);
+    cout << "PreOrder: ";
+    PreOrder(root);
+    cout << endl;
+    cout << "InOrder: ";
+    InOrder(root);
+    cout << endl;
+    cout << "PostOrder: ";
+    PostOrder(root);
+    cout << endl;
     return 0;
 }
