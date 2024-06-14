@@ -2,26 +2,31 @@
 
 using namespace std;
 
-struct AVLNode {
+struct AVLNode
+{
     int data;
     int height;
-    AVLNode* left;
-    AVLNode* right;
+    AVLNode *left;
+    AVLNode *right;
 };
 
-int Max(int a, int b) {
+int Max(int a, int b)
+{
     return a > b ? a : b;
 }
 
-int GetHeight(AVLNode* root) {
-    if (root == NULL) {
+int GetHeight(AVLNode *root)
+{
+    if (root == NULL)
+    {
         return -1;
     }
     return root->height;
 }
 
-AVLNode* SingleLeftRotation(AVLNode* A) {
-    AVLNode* B = A->left;
+AVLNode *SingleLeftRotation(AVLNode *A)
+{
+    AVLNode *B = A->left;
     A->left = B->right;
     B->right = A;
     A->height = Max(GetHeight(A->left), GetHeight(A->right)) + 1;
@@ -29,8 +34,9 @@ AVLNode* SingleLeftRotation(AVLNode* A) {
     return B;
 }
 
-AVLNode* SingleRightRotation(AVLNode* A) {
-    AVLNode* B = A->right;
+AVLNode *SingleRightRotation(AVLNode *A)
+{
+    AVLNode *B = A->right;
     A->right = B->left;
     B->left = A;
     A->height = Max(GetHeight(A->left), GetHeight(A->right)) + 1;
@@ -38,37 +44,53 @@ AVLNode* SingleRightRotation(AVLNode* A) {
     return B;
 }
 
-AVLNode* DoubleLeftRightRotation(AVLNode* A) {
+AVLNode *DoubleLeftRightRotation(AVLNode *A)
+{
     A->left = SingleRightRotation(A->left);
     return SingleLeftRotation(A);
 }
 
-AVLNode* DoubleRightLeftRotation(AVLNode* A) {
+AVLNode *DoubleRightLeftRotation(AVLNode *A)
+{
     A->right = SingleLeftRotation(A->right);
     return SingleRightRotation(A);
 }
 
-AVLNode* Insert(AVLNode* root, int data) {
-    if (root == NULL) {
+AVLNode *Insert(AVLNode *root, int data)
+{
+    if (root == NULL)
+    {
         root = new AVLNode();
         root->data = data;
         root->height = 0;
         root->left = root->right = NULL;
-    } else if (data < root->data) {
+    }
+    else if (data < root->data)
+    {
         root->left = Insert(root->left, data);
-        if (GetHeight(root->left) - GetHeight(root->right) == 2) {
-            if (data < root->left->data) {
+        if (GetHeight(root->left) - GetHeight(root->right) == 2)
+        {
+            if (data < root->left->data)
+            {
                 root = SingleLeftRotation(root);
-            } else {
+            }
+            else
+            {
                 root = DoubleLeftRightRotation(root);
             }
         }
-    } else if (data > root->data) {
+    }
+    else if (data > root->data)
+    {
         root->right = Insert(root->right, data);
-        if (GetHeight(root->right) - GetHeight(root->left) == 2) {
-            if (data > root->right->data) {
+        if (GetHeight(root->right) - GetHeight(root->left) == 2)
+        {
+            if (data > root->right->data)
+            {
                 root = SingleRightRotation(root);
-            } else {
+            }
+            else
+            {
                 root = DoubleRightLeftRotation(root);
             }
         }
@@ -77,8 +99,10 @@ AVLNode* Insert(AVLNode* root, int data) {
     return root;
 }
 
-void printH(AVLNode* root) {
-    if (root == NULL) {
+void printH(AVLNode *root)
+{
+    if (root == NULL)
+    {
         return;
     }
     cout << root->data << " " << (GetHeight(root->right) - GetHeight(root->left)) << endl;
@@ -86,8 +110,9 @@ void printH(AVLNode* root) {
     printH(root->right);
 }
 
-int main() {
-    AVLNode* root = NULL;
+int main()
+{
+    AVLNode *root = NULL;
     root = Insert(root, 3);
     root = Insert(root, 2);
     root = Insert(root, 1);
